@@ -4,7 +4,8 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../slices/usersApiSlice";
-import { removeCredentials } from "../slices/authSlice";
+// import { removeCredentials } from "../slices/authSlice";
+import { logout } from "../slices/authSlice";
 
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -12,12 +13,12 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [logout] = useLogoutMutation();
+  const [logoutApiCall] = useLogoutMutation();
 
   const logoutHandler = async () => {
     try {
-      await logout().unwrap();
-      dispatch(removeCredentials());
+      await logoutApiCall().unwrap();
+      dispatch(logout());
       navigate("/login");
     } catch (err) {
       console.error(err);
